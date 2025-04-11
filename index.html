@@ -50,16 +50,21 @@ async function loadCSV(url){
     const headers = lines.shift().split(',');
 
     return lines.map(line => {
-        const entries = line.match(/(".*?"|[^",]+)(?=\s*,|\s*$)/g)
-                            .map(e => e.trim().replace(/^"|"$/g, ''));
+        let entries = [];
+        let entry = '', inQuotes = false;
+        for(let char of line){
+            if(char === '"' && !inQuotes){ inQuotes = true; continue; }
+            if(char === '"' && inQuotes){ inQuotes = false; continue; }
+            if(char === ',' && !inQuotes){ entries.push(entry.trim()); entry=''; continue; }
+            entry += char;
+        }
+        entries.push(entry.trim());
         const obj = {};
         headers.forEach((h,i)=>obj[h.trim()]=entries[i]);
         return obj;
     });
 }
 
-
-    
 function generateHTML(data){
     const cont = document.getElementById('container');
     data.forEach(fiche=>{
