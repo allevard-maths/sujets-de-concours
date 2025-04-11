@@ -2,53 +2,77 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sujets de concours</title>
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Config MathJax pour police sans serif -->
+  <script>
+    window.MathJax = {
+      tex: {
+        packages: {'[+]': ['ams']},
+      },
+      options: {
+        renderActions: {
+          addMenu: []
+        }
+      },
+      chtml: {
+        displayAlign: "center",
+        scale: 100
+      }
+    };
+  </script>
   <script id="MathJax-script" async
     src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
   <style>
     body {
-  font-family: sans-serif;
-  padding: 20px;
-  margin: auto;
-  max-width: 1000px;
-}
+      font-family: sans-serif;
+      padding: 20px;
+      max-width: 1100px;
+      margin: auto;
+    }
 
-table {
-  border-collapse: collapse;
-  width: 100%;
-  overflow-x: auto;
-  display: block;
-}
+    h1 {
+      text-align: center;
+      font-size: 1.5em;
+    }
 
-th, td {
-  border: 1px solid #aaa;
-  padding: 8px;
-  vertical-align: top;
-  font-family: sans-serif;
-  font-size: 0.95em;
-}
+    .table-wrapper {
+      overflow-x: auto;
+    }
 
-h1 {
-  text-align: center;
-  font-size: 1.5em;
-}
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
 
-button.toggle {
-  margin-top: 5px;
-  padding: 4px 8px;
-  font-size: 0.9em;
-  cursor: pointer;
-}
+    th, td {
+      border: 1px solid #aaa;
+      padding: 8px;
+      vertical-align: top;
+      font-family: sans-serif;
+      font-size: 0.95em;
+    }
 
-/* Pour éviter que les formules débordent en ligne */
-mjx-container {
-  overflow-x: auto;
-  display: block;
-}
+    button.toggle {
+      margin-top: 5px;
+      padding: 4px 8px;
+      font-size: 0.9em;
+      cursor: pointer;
+    }
 
+    .description {
+      display: none;
+      margin-top: 5px;
+    }
+
+    mjx-container {
+      overflow-x: auto;
+      display: block;
+    }
   </style>
+
   <script>
     function toggleDescription(id) {
       const el = document.getElementById(id);
@@ -60,116 +84,57 @@ mjx-container {
 
 <h1>Sujets de concours</h1>
 
-<table>
-  <tr>
-    <th>Concours</th>
-    <th>Exercice / Problème</th>
-    <th>Descriptif</th>
-    <th>Intérêt</th>
-    <th>Difficulté</th>
-    <th>Rencontré lors de...</th>
-  </tr>
+<div class="table-wrapper">
+  <table>
+    <tr>
+      <th>Concours</th>
+      <th>Exercice / Problème</th>
+      <th>Descriptif</th>
+      <th>Intérêt</th>
+      <th>Difficulté</th>
+      <th>Rencontré lors de...</th>
+    </tr>
 
-  <!-- Modèle 1 -->
-  <tr>
-    <td>\( \text{E3A PSI 2024} \)</td>
-    <td>\( \text{Exerccie 1} \)</td>
-    <td>
-      Probabilité de diagonalisabilité de \(\begin{pmatrix}X(w)&0\\2&Y(w)\end{pmatrix}\) lorsque \(X\sim \mathcal{B}(n,p)\).
-      <button class="toggle" onclick="toggleDescription('desc1')">Détails</button>
-      <div class="description" id="desc1">
-        <!-- Exemple : -->
-        Travail sur les congruences : démonstration que \( a^p \equiv a \mod p \) pour tout \( a \in \mathbb{Z} \), \( p \) premier.
-      </div>
-    </td>
-    <td><!-- Fort / Moyen / Faible --></td>
-    <td><!-- Facile / Moyenne / Difficile --></td>
-    <td><!-- DM 1, DS 2, etc. --></td>
-  </tr>
+    <!-- Ligne d'exemple -->
+    <tr>
+      <td>\( \text{E3A PSI 2024} \)</td>
+      <td>\( \text{Exercice 1} \)</td>
+      <td>
+        \( \text{Probabilité de diagonalisabilité de } \begin{pmatrix}X(w)&0\\2&Y(w)\end{pmatrix} \text{ lorsque } X\sim \mathcal{B}(n,p) \)
+        <br>
+        <button class="toggle" onclick="toggleDescription('desc1')">Détails</button>
+        <div class="description" id="desc1">
+          <ul>
+            <li>Calcul de \( \sum_{k=0}^{n} \binom{n}{k}^2 \)</li>
+            <li>CNS de diagonalisabilité de \( \begin{pmatrix} a & 0 \\ 2 & c \end{pmatrix} \)</li>
+            <li>Calcul de \( \mathbb{P}(X = Y) \)</li>
+          </ul>
+        </div>
+      </td>
+      <td>+++</td>
+      <td>très abordable</td>
+      <td>pas rencontré en cours</td>
+    </tr>
 
-  <!-- Modèle 2 -->
-  <tr>
-    <td>\( \text{Concours 2} \)</td>
-    <td>\( \text{Ex. / Prob. 2} \)</td>
-    <td>
-      <button class="toggle" onclick="toggleDescription('desc2')">Afficher</button>
-      <div class="description" id="desc2">
-        <!-- Descriptif -->
-      </div>
-    </td>
-    <td></td>
-    <td></td>
-    <td></td>
-  </tr>
+    <!-- Modèle à copier -->
+    <tr>
+      <td>\( \text{Concours} \)</td>
+      <td>\( \text{Ex. / Prob.} \)</td>
+      <td>
+        <!-- Descriptif court ici -->
+        <br>
+        <button class="toggle" onclick="toggleDescription('descX')">Détails</button>
+        <div class="description" id="descX">
+          <!-- Descriptif détaillé ici -->
+        </div>
+      </td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
 
-  <!-- Modèle 3 -->
-  <tr>
-    <td>\( \text{Concours 3} \)</td>
-    <td>\( \text{Ex. / Prob. 3} \)</td>
-    <td>
-      <button class="toggle" onclick="toggleDescription('desc3')">Afficher</button>
-      <div class="description" id="desc3">
-        <!-- Descriptif -->
-      </div>
-    </td>
-    <td></td>
-    <td></td>
-    <td></td>
-  </tr>
-
-  <!-- Modèle 4 -->
-  <tr>
-    <td>\( \text{Concours 4} \)</td>
-    <td>\( \text{Ex. / Prob. 4} \)</td>
-    <td>
-      <button class="toggle" onclick="toggleDescription('desc4')">Afficher</button>
-      <div class="description" id="desc4">
-        <!-- Descriptif -->
-      </div>
-    </td>
-    <td></td>
-    <td></td>
-    <td></td>
-  </tr>
-
-  <!-- Modèle 5 -->
-  <tr>
-    <td>\( \text{Concours 5} \)</td>
-    <td>\( \text{Ex. / Prob. 5} \)</td>
-    <td>
-      <button class="toggle" onclick="toggleDescription('desc5')">Afficher</button>
-      <div class="description" id="desc5">
-        <!-- Descriptif -->
-      </div>
-    </td>
-    <td></td>
-    <td></td>
-    <td></td>
-  </tr>
-
-
-
-  <tr>
-  <td>\( \text{E3A PSI 2024} \)</td>
-  <td>\( \text{Exercice 1} \)</td>
-  <td>
-    \( \text{Probabilité de diagonalisabilité de } \begin{pmatrix}X(w)&0\\2&Y(w)\end{pmatrix} \text{ lorsque } X\sim \mathcal{B}(n,p) \)
-    <br>
-    <button class="toggle" onclick="toggleDescription('desc6')">Détails</button>
-    <div class="description" id="desc6">
-     <ul>
-        <li>Calcul de \( \sum_{k=0}^{n} \binom{n}{k}^2 \)</li>
-        <li>Condition nécessaire et suffisante de diagonalisabilité de \( \begin{pmatrix} a & 0 \\ 2 & c \end{pmatrix} \)</li>
-        <li>Calcul de \( \mathbb{P}(X = Y) \)</li>
-      </ul>
-    </div>
-  </td>
-  <td>+++</td>
-  <td>très abordable</td>
-  <td>pas rencontré en cours</td>
-</tr>
-
-</table>
+  </table>
+</div>
 
 </body>
 </html>
