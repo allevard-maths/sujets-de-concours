@@ -5,16 +5,24 @@
   <title>Sujets de concours</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <!-- MathJax config -->
+  <!-- MathJax config avec rendu SVG -->
   <script>
     window.MathJax = {
-      tex: { packages: {'[+]': ['ams']} },
-      options: { renderActions: { addMenu: [] } },
-      chtml: { displayAlign: "center", scale: 100 }
+      tex: {
+        packages: {'[+]': ['ams']}
+      },
+      svg: {
+        fontCache: 'global',
+        scale: 100
+      },
+      options: {
+        renderActions: { addMenu: [] },
+        output: 'svg'
+      }
     };
   </script>
   <script id="MathJax-script" async
-    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 
   <style>
     body {
@@ -60,9 +68,9 @@
     }
 
     mjx-container {
+      max-width: 100%;
       overflow-x: auto;
       display: block;
-      max-width: 100%;
     }
   </style>
 
@@ -95,7 +103,7 @@
   <p><strong>Rencontré lors de :</strong> pas rencontré en cours</p>
 </div>
 
-<!-- Modèle à copier pour ajouter d'autres fiches -->
+<!-- Modèle pour une nouvelle fiche -->
 <!--
 <div class="fiche">
   <h2>Concours — Exercice</h2>
