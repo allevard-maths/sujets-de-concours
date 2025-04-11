@@ -2,17 +2,52 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sujets de concours</title>
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script id="MathJax-script" async
     src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
   <style>
-    body { font-family: sans-serif; padding: 20px; max-width: 1100px; margin: auto; }
-    table { border-collapse: collapse; width: 100%; margin-top: 20px; }
-    th, td { border: 1px solid #aaa; padding: 8px; vertical-align: top; }
-    h1 { text-align: center; }
-    .description { display: none; margin-top: 5px; }
-    button.toggle { margin-top: 5px; padding: 4px 8px; font-size: 0.9em; }
+    body {
+  font-family: sans-serif;
+  padding: 20px;
+  margin: auto;
+  max-width: 1000px;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  overflow-x: auto;
+  display: block;
+}
+
+th, td {
+  border: 1px solid #aaa;
+  padding: 8px;
+  vertical-align: top;
+  font-family: sans-serif;
+  font-size: 0.95em;
+}
+
+h1 {
+  text-align: center;
+  font-size: 1.5em;
+}
+
+button.toggle {
+  margin-top: 5px;
+  padding: 4px 8px;
+  font-size: 0.9em;
+  cursor: pointer;
+}
+
+/* Pour éviter que les formules débordent en ligne */
+mjx-container {
+  overflow-x: auto;
+  display: block;
+}
+
   </style>
   <script>
     function toggleDescription(id) {
