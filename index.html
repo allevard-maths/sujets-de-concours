@@ -2,10 +2,10 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Sujets de concours 2</title>
+  <title>Sujets de concours</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <!-- MathJax sans menu -->
+  <!-- MathJax config -->
   <script>
     window.MathJax = {
       tex: { packages: {'[+]': ['ams']} },
@@ -17,48 +17,46 @@
     src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
   <style>
-    html, body {
-      margin: 0;
-      padding: 0;
+    body {
       font-family: sans-serif;
+      margin: 0;
+      padding: 1rem;
+      background: #f9f9f9;
     }
 
     h1 {
       text-align: center;
-      font-size: 1.4em;
-      padding: 1em 1em 0 1em;
+      margin-bottom: 2rem;
     }
 
-    .table-wrapper {
-      overflow-x: auto;
-      width: 100%;
+    .fiche {
+      background: white;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
     }
 
-    table {
-      border-collapse: collapse;
-      width: 100%;
-      table-layout: auto;
+    .fiche h2 {
+      font-size: 1.1rem;
+      margin: 0 0 0.5rem 0;
     }
 
-    th, td {
-      border: 1px solid #aaa;
-      padding: 8px;
-      text-align: left;
-      vertical-align: top;
-      font-size: 0.95em;
-      word-break: break-word;
+    .fiche p {
+      margin: 0.3em 0;
     }
 
-    button.toggle {
-      margin-top: 5px;
-      padding: 4px 8px;
-      font-size: 0.9em;
-      cursor: pointer;
-    }
-
-    .description {
+    .details {
       display: none;
-      margin-top: 5px;
+      margin-top: 0.5rem;
+    }
+
+    .toggle-btn {
+      margin-top: 0.5rem;
+      padding: 0.3rem 0.7rem;
+      font-size: 0.9rem;
+      cursor: pointer;
     }
 
     mjx-container {
@@ -69,7 +67,7 @@
   </style>
 
   <script>
-    function toggleDescription(id) {
+    function toggleDetails(id) {
       const el = document.getElementById(id);
       el.style.display = (el.style.display === 'none') ? 'block' : 'none';
     }
@@ -77,59 +75,42 @@
 </head>
 <body>
 
-<h1>Sujets de concours 2</h1>
+<h1>Sujets de concours</h1>
 
-<div class="table-wrapper">
-  <table>
-    <tr>
-      <th>Concours</th>
-      <th>Exercice / Problème</th>
-      <th>Descriptif</th>
-      <th>Intérêt</th>
-      <th>Difficulté</th>
-      <th>Rencontré lors de...</th>
-    </tr>
-
-    <!-- Ligne exemple -->
-    <tr>
-      <td>E3A PSI 2024</td>
-      <td>Exercice 1</td>
-      <td>
-        \( \text{Probabilité de diagonalisabilité de } \begin{pmatrix}X(w)&0\\2&Y(w)\end{pmatrix} \text{ lorsque } X\sim \mathcal{B}(n,p) \)
-        <br>
-        <button class="toggle" onclick="toggleDescription('desc1')">Détails</button>
-        <div class="description" id="desc1">
-          <ul>
-            <li>Calcul de \( \sum_{k=0}^{n} \binom{n}{k}^2 \)</li>
-            <li>CNS de diagonalisabilité de \( \begin{pmatrix} a & 0 \\ 2 & c \end{pmatrix} \)</li>
-            <li>Calcul de \( \mathbb{P}(X = Y) \)</li>
-          </ul>
-        </div>
-      </td>
-      <td>+++</td>
-      <td>très abordable</td>
-      <td>pas rencontré en cours</td>
-    </tr>
-
-    <!-- Ligne modèle -->
-    <tr>
-      <td><!-- Concours --></td>
-      <td><!-- Exercice --></td>
-      <td>
-        <!-- Descriptif -->
-        <br>
-        <button class="toggle" onclick="toggleDescription('descX')">Détails</button>
-        <div class="description" id="descX">
-          <!-- Détails -->
-        </div>
-      </td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-
-  </table>
+<div class="fiche">
+  <h2>E3A PSI 2024 — Exercice 1</h2>
+  <p><strong>Descriptif :</strong><br>
+    \( \text{Probabilité de diagonalisabilité de } \begin{pmatrix}X(w)&0\\2&Y(w)\end{pmatrix}, \text{ où } X \sim \mathcal{B}(n,p) \)
+  </p>
+  <button class="toggle-btn" onclick="toggleDetails('details1')">Afficher les détails</button>
+  <div class="details" id="details1">
+    <ul>
+      <li>Calcul de \( \sum_{k=0}^{n} \binom{n}{k}^2 \)</li>
+      <li>CNS de diagonalisabilité de \( \begin{pmatrix} a & 0 \\ 2 & c \end{pmatrix} \)</li>
+      <li>Calcul de \( \mathbb{P}(X = Y) \)</li>
+    </ul>
+  </div>
+  <p><strong>Intérêt :</strong> +++</p>
+  <p><strong>Difficulté :</strong> très abordable</p>
+  <p><strong>Rencontré lors de :</strong> pas rencontré en cours</p>
 </div>
+
+<!-- Modèle à copier pour ajouter d'autres fiches -->
+<!--
+<div class="fiche">
+  <h2>Concours — Exercice</h2>
+  <p><strong>Descriptif :</strong><br> \( \text{...} \)</p>
+  <button class="toggle-btn" onclick="toggleDetails('detailsX')">Afficher les détails</button>
+  <div class="details" id="detailsX">
+    <ul>
+      <li>...</li>
+    </ul>
+  </div>
+  <p><strong>Intérêt :</strong> ...</p>
+  <p><strong>Difficulté :</strong> ...</p>
+  <p><strong>Rencontré lors de :</strong> ...</p>
+</div>
+-->
 
 </body>
 </html>
