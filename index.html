@@ -2,132 +2,79 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <title>Fiches Exercices Concours</title>
     <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
     <style>
         body {
             font-family: sans-serif;
-            background-color: #f8f9fa;
-            margin: 0;
-            padding: 10px;
-            box-sizing: border-box;
+            background: #f8f9fa;
+            margin: 0; padding: 10px;
         }
-
         .fiche {
-            background: #ffffff;
+            background: white; padding: 15px; margin: 10px auto; border-radius: 10px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            border-radius: 10px;
-            padding: 15px;
-            margin: 10px auto;
             max-width: 800px;
-            box-sizing: border-box;
         }
-
-        .fiche h2 {
-            margin-top: 0;
-            font-size: 1.2em;
+        button {
+            background-color: #007BFF; color: white; border: none; padding: 6px 12px;
+            border-radius: 6px; cursor: pointer; margin-top: 10px;
         }
-
-        .fiche button {
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            padding: 6px 12px;
-            border-radius: 6px;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-
-        .fiche button:hover {
-            background-color: #0056b3;
-        }
-
-        .descriptif-detaille {
-            display: none;
-            margin-top: 10px;
-            border-top: 1px solid #eaeaea;
-            padding-top: 10px;
-        }
-
-        .champ-info {
-            font-size: 0.9em;
-            color: #333;
-            margin-top: 5px;
-        }
-
-        mjx-container, svg {
-            max-width: 100%;
-            overflow-x: auto;
-        }
-
-        @media (max-width: 600px) {
-            .fiche {
-                padding: 12px;
-            }
-
-            .fiche h2 {
-                font-size: 1.1em;
-            }
-        }
+        .descriptif-detaille { display: none; border-top: 1px solid #eaeaea; margin-top:10px; padding-top:10px; }
+        mjx-container, svg { max-width: 100%; overflow-x: auto; }
     </style>
 </head>
 <body>
 
-<div class="fiche">
-    <h2>E3A PSI 2024 - Exercice 1</h2>
-    <div class="descriptif-court">
-        Probabilité de diagonalisabilité de \( \begin{pmatrix}X(w)&0\\2&Y(w)\end{pmatrix} \) lorsque \( X \sim \mathcal{B}(n, p) \)
-    </div>
-
-    <button onclick="toggleDetail(this)">Afficher les détails</button>
-
-    <div class="descriptif-detaille">
-        <ul>
-            <li>Calcul de \( \sum_{k=0}^{n} \binom{n}{k}^2 \)</li>
-            <li>CNS de diagonalisabilité de \( \begin{pmatrix} a & 0 \\ 2 & c \end{pmatrix} \)</li>
-            <li>Calcul de \( \mathbb{P}(X = Y) \)</li>
-        </ul>
-    </div>
-
-    <div class="champ-info"><strong>Intérêt :</strong> +++</div>
-    <div class="champ-info"><strong>Difficulté :</strong> très abordable</div>
-    <div class="champ-info"><strong>Rencontré lors de… :</strong> pas rencontré en cours</div>
-</div>
-
-    <div class="fiche">
-    <h2>E3A PSI 2024 - Exercice 2</h2>
-    <div class="descriptif-court">
-        Étude de l'endomorphisme \(T(f)(x)=\int_{0}^{1}\min(x,t)f(t)\,\mathrm{d}t\)
-    </div>
-
-    <button onclick="toggleDetail(this)">Afficher les détails</button>
-
-    <div class="descriptif-detaille">
-        <p>Aucun descriptif détaillé fourni pour cet exercice.</p>
-    </div>
-
-    <div class="champ-info"><strong>Intérêt :</strong> ++</div>
-    <div class="champ-info"><strong>Difficulté :</strong> nécessite de comprendre la fonction \( t\mapsto \min(x,t) \)</div>
-    <div class="champ-info"><strong>Rencontré lors de… :</strong> pas rencontré cette année...</div>
-</div>
+<div id="fiches-container"></div>
 
 <script>
-    function toggleDetail(button) {
-        const detail = button.nextElementSibling;
-        if (detail.style.display === "block") {
-            detail.style.display = "none";
-            button.textContent = "Afficher les détails";
-        } else {
-            detail.style.display = "block";
-            button.textContent = "Masquer les détails";
-            MathJax.typesetPromise();
-        }
-    }
-
-    document.addEventListener("DOMContentLoaded", () => {
+function toggleDetail(button) {
+    const detail = button.nextElementSibling;
+    if(detail.style.display === "block") {
+        detail.style.display = "none";
+        button.textContent = "Afficher les détails";
+    } else {
+        detail.style.display = "block";
+        button.textContent = "Masquer les détails";
         MathJax.typesetPromise();
+    }
+}
+
+async function chargerCSV(url) {
+    const response = await fetch(url);
+    const texte = await response.text();
+    const lignes = texte.trim().split("\\n").slice(1); // retire l'entête
+    return lignes.map(l => {
+        const [concours, exercice, descriptif_court, descriptif_detaille, interet, difficulte, rencontre] = l.split(/,(?=(?:[^"]*"[^"]*")*[^"]*$)/).map(e => e.replace(/^"|"$/g, '').trim());
+        return {concours, exercice, descriptif_court, descriptif_detaille, interet, difficulte, rencontre};
     });
+}
+
+function genererHTML(fiches){
+    const container = document.getElementById("fiches-container");
+    fiches.forEach(fiche => {
+        const div = document.createElement('div');
+        div.className = 'fiche';
+        div.innerHTML = `
+            <h2>${fiche.concours} - ${fiche.exercice}</h2>
+            <div class="descriptif-court">${fiche.descriptif_court}</div>
+            <button onclick="toggleDetail(this)">Afficher les détails</button>
+            <div class="descriptif-detaille">
+                ${fiche.descriptif_detaille || '<p>Aucun descriptif détaillé fourni pour cet exercice.</p>'}
+            </div>
+            <div><strong>Intérêt :</strong> ${fiche.interet}</div>
+            <div><strong>Difficulté :</strong> ${fiche.difficulte}</div>
+            <div><strong>Rencontré lors de… :</strong> ${fiche.rencontre}</div>
+        `;
+        container.appendChild(div);
+    });
+    MathJax.typesetPromise();
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    chargerCSV('fiches.csv').then(genererHTML);
+});
 </script>
 
 </body>
