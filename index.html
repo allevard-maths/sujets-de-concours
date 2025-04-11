@@ -65,18 +65,25 @@ async function loadCSV(url){
     });
 }
 
-// Génération HTML
+// Génération HTML avec gestion automatique des listes
 function generateHTML(data){
     const cont = document.getElementById('container');
     data.forEach(fiche=>{
         const el = document.createElement('div');
         el.className = 'fiche';
+
+        let detailHTML = '<i>Aucun descriptif détaillé fourni.</i>';
+        if (fiche.descriptif_detaille.trim()) {
+            const items = fiche.descriptif_detaille.split(';').map(item => item.trim());
+            detailHTML = '<ul>' + items.map(item => `<li>${item}</li>`).join('') + '</ul>';
+        }
+
         el.innerHTML = `
         <h2>${fiche.concours} - ${fiche.exercice}</h2>
         <div>${fiche.descriptif_court}</div>
         <button onclick="toggleDetail(this)">Afficher les détails</button>
         <div class="detail">
-          ${fiche.descriptif_detaille ? fiche.descriptif_detaille : '<i>Aucun descriptif détaillé fourni.</i>'}
+          ${detailHTML}
         </div>
         <div><strong>Intérêt :</strong> ${fiche.interet}</div>
         <div><strong>Difficulté :</strong> ${fiche.difficulte}</div>
@@ -86,6 +93,7 @@ function generateHTML(data){
     });
     MathJax.typesetPromise();
 }
+
 
 document.addEventListener('DOMContentLoaded',()=>{
     loadCSV('fiches.csv').then(generateHTML);
