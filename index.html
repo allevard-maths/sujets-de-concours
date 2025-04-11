@@ -5,15 +5,21 @@
   <title>Sujets de concours</title>
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script id="MathJax-script" async
-    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
-  </script>
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
   <style>
-    body { font-family: sans-serif; padding: 20px; max-width: 1000px; margin: auto; }
-    table { border-collapse: collapse; width: 100%; }
-    th, td { border: 1px solid #aaa; padding: 8px; text-align: center; }
-    select { padding: 4px; }
+    body { font-family: sans-serif; padding: 20px; max-width: 1100px; margin: auto; }
+    table { border-collapse: collapse; width: 100%; margin-top: 20px; }
+    th, td { border: 1px solid #aaa; padding: 8px; vertical-align: top; }
     h1 { text-align: center; }
+    .description { display: none; margin-top: 5px; }
+    button.toggle { margin-top: 5px; padding: 4px 8px; font-size: 0.9em; }
   </style>
+  <script>
+    function toggleDescription(id) {
+      const el = document.getElementById(id);
+      el.style.display = (el.style.display === 'none') ? 'block' : 'none';
+    }
+  </script>
 </head>
 <body>
 
@@ -21,50 +27,90 @@
 
 <table>
   <tr>
-    <th>Année</th>
-    <th>Épreuve</th>
-    <th>Thème principal</th>
-    <th>État</th>
+    <th>Concours</th>
+    <th>Exercice / Problème</th>
+    <th>Descriptif</th>
+    <th>Intérêt</th>
     <th>Difficulté</th>
+    <th>Rencontré lors de...</th>
   </tr>
+
+  <!-- Modèle 1 -->
   <tr>
-    <td>2023</td>
-    <td>CCINP</td>
-    <td>\( \text{Graphes orientés, matrices d'adjacence} \)</td>
+    <td>\( \text{Concours 1} \)</td>
+    <td>\( \text{Ex. / Prob. 1} \)</td>
     <td>
-      <select>
-        <option>Non commencé</option>
-        <option>En cours</option>
-        <option>Fait</option>
-      </select>
+      <button class="toggle" onclick="toggleDescription('desc1')">Afficher</button>
+      <div class="description" id="desc1">
+        <!-- Exemple : -->
+        Travail sur les congruences : démonstration que \( a^p \equiv a \mod p \) pour tout \( a \in \mathbb{Z} \), \( p \) premier.
+      </div>
     </td>
-    <td>
-      <select>
-        <option>Facile</option>
-        <option>Moyen</option>
-        <option>Difficile</option>
-      </select>
-    </td>
+    <td><!-- Fort / Moyen / Faible --></td>
+    <td><!-- Facile / Moyenne / Difficile --></td>
+    <td><!-- DM 1, DS 2, etc. --></td>
   </tr>
+
+  <!-- Modèle 2 -->
   <tr>
-    <td>2022</td>
-    <td>MP Mines</td>
-    <td>\( \text{Arithmétique modulaire, congruences} \)</td>
+    <td>\( \text{Concours 2} \)</td>
+    <td>\( \text{Ex. / Prob. 2} \)</td>
     <td>
-      <select>
-        <option>Non commencé</option>
-        <option>En cours</option>
-        <option>Fait</option>
-      </select>
+      <button class="toggle" onclick="toggleDescription('desc2')">Afficher</button>
+      <div class="description" id="desc2">
+        <!-- Descriptif -->
+      </div>
     </td>
-    <td>
-      <select>
-        <option>Facile</option>
-        <option>Moyen</option>
-        <option>Difficile</option>
-      </select>
-    </td>
+    <td></td>
+    <td></td>
+    <td></td>
   </tr>
+
+  <!-- Modèle 3 -->
+  <tr>
+    <td>\( \text{Concours 3} \)</td>
+    <td>\( \text{Ex. / Prob. 3} \)</td>
+    <td>
+      <button class="toggle" onclick="toggleDescription('desc3')">Afficher</button>
+      <div class="description" id="desc3">
+        <!-- Descriptif -->
+      </div>
+    </td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+
+  <!-- Modèle 4 -->
+  <tr>
+    <td>\( \text{Concours 4} \)</td>
+    <td>\( \text{Ex. / Prob. 4} \)</td>
+    <td>
+      <button class="toggle" onclick="toggleDescription('desc4')">Afficher</button>
+      <div class="description" id="desc4">
+        <!-- Descriptif -->
+      </div>
+    </td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+
+  <!-- Modèle 5 -->
+  <tr>
+    <td>\( \text{Concours 5} \)</td>
+    <td>\( \text{Ex. / Prob. 5} \)</td>
+    <td>
+      <button class="toggle" onclick="toggleDescription('desc5')">Afficher</button>
+      <div class="description" id="desc5">
+        <!-- Descriptif -->
+      </div>
+    </td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+
 </table>
 
 </body>
