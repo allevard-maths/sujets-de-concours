@@ -65,7 +65,6 @@ async function loadCSV(url){
     });
 }
 
-// Génération HTML avec gestion automatique des listes
 function generateHTML(data){
     const cont = document.getElementById('container');
     data.forEach(fiche=>{
@@ -78,6 +77,14 @@ function generateHTML(data){
             detailHTML = '<ul>' + items.map(item => `<li>${item}</li>`).join('') + '</ul>';
         }
 
+        let liensHTML = '';
+        if (fiche.lien_sujet.trim()) {
+            liensHTML += `<a href="${fiche.lien_sujet}" target="_blank">📄 Sujet</a>`;
+        }
+        if (fiche.lien_corrige.trim()) {
+            liensHTML += ` | <a href="${fiche.lien_corrige}" target="_blank">✅ Corrigé</a>`;
+        }
+
         el.innerHTML = `
         <h2>${fiche.concours} - ${fiche.exercice}</h2>
         <div>${fiche.descriptif_court}</div>
@@ -88,12 +95,12 @@ function generateHTML(data){
         <div><strong>Intérêt :</strong> ${fiche.interet}</div>
         <div><strong>Difficulté :</strong> ${fiche.difficulte}</div>
         <div><strong>Rencontré lors de… :</strong> ${fiche.rencontre}</div>
+        <div style="margin-top:8px;">${liensHTML}</div>
         `;
         cont.appendChild(el);
     });
     MathJax.typesetPromise();
 }
-
 
 document.addEventListener('DOMContentLoaded',()=>{
     loadCSV('fiches.csv').then(generateHTML);
