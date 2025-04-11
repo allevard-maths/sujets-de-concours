@@ -5,12 +5,10 @@
   <title>Sujets de concours</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <!-- MathJax config avec rendu SVG -->
+  <!-- MathJax SVG -->
   <script>
     window.MathJax = {
-      tex: {
-        packages: {'[+]': ['ams']}
-      },
+      tex: { packages: {'[+]': ['ams']} },
       svg: {
         fontCache: 'global',
         scale: 100
@@ -25,25 +23,34 @@
     src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 
   <style>
-    body {
-      font-family: sans-serif;
+    html, body {
       margin: 0;
+      padding: 0;
+      font-family: sans-serif;
+      max-width: 100%;
+      overflow-x: hidden;
+    }
+
+    body {
       padding: 1rem;
       background: #f9f9f9;
     }
 
     h1 {
       text-align: center;
+      font-size: 1.5rem;
       margin-bottom: 2rem;
     }
 
     .fiche {
-      background: white;
+      background: #fff;
       border: 1px solid #ccc;
       border-radius: 8px;
       padding: 1rem;
       margin-bottom: 1.5rem;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+      max-width: 100%;
+      overflow-wrap: break-word;
     }
 
     .fiche h2 {
@@ -52,7 +59,7 @@
     }
 
     .fiche p {
-      margin: 0.3em 0;
+      margin: 0.4em 0;
     }
 
     .details {
@@ -68,9 +75,16 @@
     }
 
     mjx-container {
-      max-width: 100%;
+      max-width: 100% !important;
       overflow-x: auto;
       display: block;
+    }
+
+    ul {
+      padding-left: 1.2rem;
+      margin: 0.5rem 0;
+      max-width: 100%;
+      overflow-wrap: break-word;
     }
   </style>
 
@@ -103,22 +117,7 @@
   <p><strong>Rencontré lors de :</strong> pas rencontré en cours</p>
 </div>
 
-<!-- Modèle pour une nouvelle fiche -->
-<!--
-<div class="fiche">
-  <h2>Concours — Exercice</h2>
-  <p><strong>Descriptif :</strong><br> \( \text{...} \)</p>
-  <button class="toggle-btn" onclick="toggleDetails('detailsX')">Afficher les détails</button>
-  <div class="details" id="detailsX">
-    <ul>
-      <li>...</li>
-    </ul>
-  </div>
-  <p><strong>Intérêt :</strong> ...</p>
-  <p><strong>Difficulté :</strong> ...</p>
-  <p><strong>Rencontré lors de :</strong> ...</p>
-</div>
--->
+<!-- Tu peux dupliquer la div .fiche ici -->
 
 </body>
 </html>
