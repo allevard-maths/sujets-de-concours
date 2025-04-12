@@ -88,10 +88,10 @@ function generateHTML(data){
 
         let liensHTML = '';
         if (fiche.lien_sujet.trim()) {
-            liensHTML += `<a href="${fiche.lien_sujet}" target="_blank">📄 Sujet</a>`;
+            liensHTML += `<a href="${fiche.lien_sujet}" target="_blank">sujet</a>`;
         }
         if (fiche.lien_corrige.trim()) {
-            liensHTML += ` | <a href="${fiche.lien_corrige}" target="_blank">✅ Corrigé</a>`;
+            liensHTML += ` | <a href="${fiche.lien_corrige}" target="_blank">corrigé</a>`;
         }
 
         el.innerHTML = `
