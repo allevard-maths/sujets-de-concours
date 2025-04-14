@@ -192,16 +192,28 @@ async function loadCSVAndBuildFilters(url) {
   populateChapitreSelect(chapitreMap);
 
   document.getElementById('chapitreSelect').addEventListener('change', e => {
-    const chapitre = e.target.value;
-    if (chapitre === '') {
-      document.getElementById('notionSelect').innerHTML = '<option value="">-- Choisir une notion --</option>';
-      document.getElementById('notionSelect').disabled = true;
-      document.getElementById('container').innerHTML = '';
-      generateHTML(fiches);
-      return;
-    }
-    populateNotionSelect(chapitreMap[chapitre]);
+  const chapitre = e.target.value;
+  const notionSelect = document.getElementById('notionSelect');
+  if (chapitre === '') {
+    notionSelect.innerHTML = '<option value="">-- Choisir une notion --</option>';
+    notionSelect.disabled = true;
+    document.getElementById('container').innerHTML = '';
+    generateHTML(fiches);
+    return;
+  }
+  // afficher toutes les fiches contenant ce chapitre, sans filtrer par notion
+  populateNotionSelect(chapitreMap[chapitre]);
+  const filtered = fiches.filter(fiche => {
+    if (!fiche.Chapitres) return false;
+    return fiche.Chapitres.split(';').some(entry => {
+      const [chap] = entry.split(':');
+      return chap && chap.trim() === chapitre;
+    });
   });
+  document.getElementById('container').innerHTML = '';
+  generateHTML(filtered);
+});
+
 
   document.getElementById('notionSelect').addEventListener('change', e => {
     const chapitre = document.getElementById('chapitreSelect').value;
