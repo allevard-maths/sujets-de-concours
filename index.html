@@ -196,6 +196,7 @@ async function loadCSVAndBuildFilters(url) {
     if (chapitre === '') {
       document.getElementById('notionSelect').innerHTML = '<option value="">-- Choisir une notion --</option>';
       document.getElementById('notionSelect').disabled = true;
+      document.getElementById('container').innerHTML = '';
       generateHTML(fiches);
       return;
     }
@@ -207,6 +208,7 @@ async function loadCSVAndBuildFilters(url) {
     const notion = e.target.value;
     if (chapitre && notion) {
       const filtered = filterFiches(fiches, chapitre, notion);
+      document.getElementById('container').innerHTML = '';
       generateHTML(filtered);
     }
   });
