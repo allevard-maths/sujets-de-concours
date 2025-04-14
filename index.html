@@ -43,6 +43,11 @@ window.MathJax = {
 
 
 <div style="margin: 1em;">
+  
+  <label for="concoursSelect"><strong>Concours :</strong></label>
+  <select id="concoursSelect">
+    <option value="">-- Tous les concours --</option>
+  </select><br><br>
   <label for="chapitreSelect"><strong>Chapitre :</strong></label>
   <select id="chapitreSelect">
     <option value="">-- Choisir un chapitre --</option>
@@ -135,6 +140,21 @@ function generateHTML(data){
 
 
 <script>
+
+function extractConcoursList(fiches) {
+  return [...new Set(fiches.map(f => f.concours).filter(Boolean))].sort();
+}
+
+function populateConcoursSelect(concoursList) {
+  const select = document.getElementById('concoursSelect');
+  concoursList.forEach(c => {
+    const opt = document.createElement('option');
+    opt.value = c;
+    opt.textContent = c;
+    select.appendChild(opt);
+  });
+}
+
 function extractChapitresMap(fiches) {
   const map = {};
   fiches.forEach(fiche => {
@@ -188,7 +208,52 @@ function filterFiches(fiches, chapitre, notion) {
 }
 
 async function loadCSVAndBuildFilters(url) {
+  let currentFiches = [];
+
   const fiches = await loadCSV(url);
+  
+  const concoursList = extractConcoursList(fiches);
+  populateConcoursSelect(concoursList);
+
+  function applyAllFilters() {
+    const chapitre = document.getElementById('chapitreSelect').value;
+    const notion = document.getElementById('notionSelect').value;
+    const concours = document.getElementById('concoursSelect').value;
+
+    let filtered = [...fiches];
+
+    if (concours) {
+      filtered = filtered.filter(f => f.concours === concours);
+    }
+
+    if (chapitre) {
+      filtered = filtered.filter(fiche => {
+        if (!fiche.Chapitres) return false;
+        return fiche.Chapitres.split(';').some(entry => {
+          const [chap] = entry.split(':');
+          return chap && chap.trim() === chapitre;
+        });
+      });
+    }
+
+    if (chapitre && notion) {
+      filtered = filtered.filter(fiche => {
+        if (!fiche.Chapitres) return false;
+        return fiche.Chapitres.split(';').some(entry => {
+          const [chap, notions] = entry.split(':');
+          if (!chap || !notions) return false;
+          if (chap.trim() !== chapitre) return false;
+          return notions.split(',').map(n => n.trim()).includes(notion);
+        });
+      });
+    }
+
+    document.getElementById('container').innerHTML = '';
+    generateHTML(filtered);
+  }
+
+  document.getElementById('concoursSelect').addEventListener('change', applyAllFilters);
+
   const chapitreMap = extractChapitresMap(fiches);
   populateChapitreSelect(chapitreMap);
 
