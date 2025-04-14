@@ -154,13 +154,14 @@ function extractChapitresMap(fiches) {
 
 function populateChapitreSelect(chapitresMap) {
   const select = document.getElementById('chapitreSelect');
-  for (let chap in chapitresMap) {
+  Object.keys(chapitresMap).sort().forEach(chap => {
     const opt = document.createElement('option');
     opt.value = chap;
     opt.textContent = chap;
     select.appendChild(opt);
-  }
+  });
 }
+    
 
 function populateNotionSelect(notions) {
   const select = document.getElementById('notionSelect');
