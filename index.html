@@ -178,18 +178,6 @@ function populateNotionSelect(notions) {
 
 function filterFiches(fiches, chapitre, notion) {
   return fiches.filter(fiche => {
-    const contenu = fiche.Chapitres;
-    if (!contenu) return false;
-
-    return contenu.split(';').some(entry => {
-      const [chap, notions] = entry.split(':');
-      if (!chap || !notions) return false;
-      return chap.trim() === chapitre && 
-             notions.split(',').map(n => n.trim()).includes(notion);
-    });
-  });
-}
-  return fiches.filter(fiche => {
     if (!fiche.Chapitres) return false;
     return fiche.Chapitres.split(';').some(entry => {
       const [chap, notions] = entry.split(':');
