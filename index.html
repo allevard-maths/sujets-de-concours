@@ -68,6 +68,7 @@ async function loadCSV(url){
         for(let char of line){
             if(char === '"' && !inQuotes){ inQuotes = true; continue; }
             if(char === '"' && inQuotes){ inQuotes = false; continue; }
+            if(char === '§'){ continue; }
             if(char === ',' && !inQuotes){ entries.push(entry.trim()); entry=''; continue; }
             entry += char;
         }
