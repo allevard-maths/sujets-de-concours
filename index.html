@@ -130,7 +130,13 @@ function generateHTML(data){
     MathJax.typesetPromise();
 }
 
+document.addEventListener('DOMContentLoaded',()=>{
+    loadCSV('fiches.csv').then(generateHTML);
+});
+</script>
 
+
+<script>
 function extractChapitresMap(fiches) {
   const map = {};
   fiches.forEach(fiche => {
@@ -182,21 +188,17 @@ function filterFiches(fiches, chapitre, notion) {
   });
 }
 
-
-document.addEventListener('DOMContentLoaded',()=>{
-    
-loadCSV('fiches.csv').then(fiches => {
+async function loadCSVAndBuildFilters(url) {
+  const fiches = await loadCSV(url);
   const chapitreMap = extractChapitresMap(fiches);
   populateChapitreSelect(chapitreMap);
 
   document.getElementById('chapitreSelect').addEventListener('change', e => {
     const chapitre = e.target.value;
-    const notionSelect = document.getElementById('notionSelect');
     if (chapitre === '') {
-      notionSelect.innerHTML = '<option value="">-- Choisir une notion --</option>';
-      notionSelect.disabled = true;
-      document.getElementById('container').innerHTML = '';
-      generateHTML(fiches);
+      document.getElementById('notionSelect').innerHTML = '<option value="">-- Choisir une notion --</option>';
+      document.getElementById('notionSelect').disabled = true;
+      displayFiches(fiches);
       return;
     }
     populateNotionSelect(chapitreMap[chapitre]);
@@ -205,14 +207,17 @@ loadCSV('fiches.csv').then(fiches => {
   document.getElementById('notionSelect').addEventListener('change', e => {
     const chapitre = document.getElementById('chapitreSelect').value;
     const notion = e.target.value;
-    const filtered = filterFiches(fiches, chapitre, notion);
-    document.getElementById('container').innerHTML = '';
-    generateHTML(filtered);
+    if (chapitre && notion) {
+      const filtered = filterFiches(fiches, chapitre, notion);
+      displayFiches(filtered);
+    }
   });
 
-  generateHTML(fiches);
-});
+  displayFiches(fiches);
+}
 
+window.addEventListener('DOMContentLoaded', () => {
+  loadCSVAndBuildFilters('fiches.csv');
 });
 </script>
 
