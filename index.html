@@ -40,6 +40,8 @@ window.MathJax = {
     </style>
 </head>
 <body>
+
+
 <div style="margin: 1em;">
   <label for="chapitreSelect"><strong>Chapitre :</strong></label>
   <select id="chapitreSelect">
@@ -52,8 +54,8 @@ window.MathJax = {
   </select>
 </div>
 
-
 <div id="container"></div>
+
 
 <script>
 // Fonction de gestion affichage détails
@@ -80,6 +82,7 @@ async function loadCSV(url){
         for(let char of line){
             if(char === '"' && !inQuotes){ inQuotes = true; continue; }
             if(char === '"' && inQuotes){ inQuotes = false; continue; }
+            if(char === '§'){ continue; }
             if(char === ',' && !inQuotes){ entries.push(entry.trim()); entry=''; continue; }
             entry += char;
         }
@@ -98,7 +101,7 @@ function generateHTML(data){
 
         let detailHTML = '<i>Aucun descriptif détaillé fourni.</i>';
         if (fiche.descriptif_detaille.trim()) {
-            const items = fiche.descriptif_detaille.split(';').map(item => item.trim());
+            const items = fiche.descriptif_detaille.split('\\item').map(item => item.replace(/^\\S|§/g, '').trim()).filter(item => item);
             detailHTML = '<ul>' + items.map(item => `<li>${item}</li>`).join('') + '</ul>';
         }
 
@@ -127,13 +130,7 @@ function generateHTML(data){
     MathJax.typesetPromise();
 }
 
-document.addEventListener('DOMContentLoaded',()=>{
-    loadCSV('fiches.csv').then(generateHTML);
-});
-</script>
 
-
-<script>
 function extractChapitresMap(fiches) {
   const map = {};
   fiches.forEach(fiche => {
@@ -185,17 +182,21 @@ function filterFiches(fiches, chapitre, notion) {
   });
 }
 
-async function loadCSVAndBuildFilters(url) {
-  const fiches = await loadCSV(url);
+
+document.addEventListener('DOMContentLoaded',()=>{
+    
+loadCSV('fiches.csv').then(fiches => {
   const chapitreMap = extractChapitresMap(fiches);
   populateChapitreSelect(chapitreMap);
 
   document.getElementById('chapitreSelect').addEventListener('change', e => {
     const chapitre = e.target.value;
+    const notionSelect = document.getElementById('notionSelect');
     if (chapitre === '') {
-      document.getElementById('notionSelect').innerHTML = '<option value="">-- Choisir une notion --</option>';
-      document.getElementById('notionSelect').disabled = true;
-      displayFiches(fiches);
+      notionSelect.innerHTML = '<option value="">-- Choisir une notion --</option>';
+      notionSelect.disabled = true;
+      document.getElementById('container').innerHTML = '';
+      generateHTML(fiches);
       return;
     }
     populateNotionSelect(chapitreMap[chapitre]);
@@ -204,17 +205,14 @@ async function loadCSVAndBuildFilters(url) {
   document.getElementById('notionSelect').addEventListener('change', e => {
     const chapitre = document.getElementById('chapitreSelect').value;
     const notion = e.target.value;
-    if (chapitre && notion) {
-      const filtered = filterFiches(fiches, chapitre, notion);
-      displayFiches(filtered);
-    }
+    const filtered = filterFiches(fiches, chapitre, notion);
+    document.getElementById('container').innerHTML = '';
+    generateHTML(filtered);
   });
 
-  displayFiches(fiches);
-}
+  generateHTML(fiches);
+});
 
-window.addEventListener('DOMContentLoaded', () => {
-  loadCSVAndBuildFilters('fiches.csv');
 });
 </script>
 
