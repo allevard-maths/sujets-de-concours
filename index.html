@@ -4,7 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <title>Fiches Exercices Concours</title>
-    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+    
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']]
+  },
+  svg: {
+    fontCache: 'global'
+  }
+};
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
     <style>
         body {
             font-family: sans-serif;
@@ -73,7 +86,7 @@ function generateHTML(data){
 
         let detailHTML = '<i>Aucun descriptif détaillé fourni.</i>';
         if (fiche.descriptif_detaille.trim()) {
-            const items = fiche.descriptif_detaille.split('\\item').map(item => item.trim()).filter(item => item);
+            const items = fiche.descriptif_detaille.split('\\item').map(item => item.replace(/^\\S|§/g, '').trim()).filter(item => item);
             detailHTML = '<ul>' + items.map(item => `<li>${item}</li>`).join('') + '</ul>';
         }
 
