@@ -24,15 +24,6 @@
         }
         .detail { display: none; margin-top: 10px; border-top: 1px solid #eee; padding-top: 8px; }
         mjx-container, svg { max-width: 100%; overflow-x: auto; }
-        .liens {
-            font-size: 0.85em;
-            color: #555;
-            margin-top: -10px;
-            margin-bottom: 10px;
-        }
-        h2 {
-            margin-bottom: 4px;
-        }
     </style>
 </head>
 <body>
@@ -82,21 +73,20 @@ function generateHTML(data){
 
         let detailHTML = '<i>Aucun descriptif détaillé fourni.</i>';
         if (fiche.descriptif_detaille.trim()) {
-            const items = fiche.descriptif_detaille.split(';').map(item => item.trim());
+            const items = fiche.descriptif_detaille.split('\\item').map(item => item.trim()).filter(item => item);
             detailHTML = '<ul>' + items.map(item => `<li>${item}</li>`).join('') + '</ul>';
         }
 
         let liensHTML = '';
         if (fiche.lien_sujet.trim()) {
-            liensHTML += `<a href="${fiche.lien_sujet}" target="_blank">sujet</a>`;
+            liensHTML += `<a href="${fiche.lien_sujet}" target="_blank">📄 Sujet</a>`;
         }
         if (fiche.lien_corrige.trim()) {
-            liensHTML += ` | <a href="${fiche.lien_corrige}" target="_blank">corrigé</a>`;
+            liensHTML += ` | <a href="${fiche.lien_corrige}" target="_blank">✅ Corrigé</a>`;
         }
 
         el.innerHTML = `
         <h2>${fiche.concours} - ${fiche.exercice}</h2>
-        <div class="liens">${liensHTML}</div>
         <div>${fiche.descriptif_court}</div>
         <button onclick="toggleDetail(this)">Afficher les détails</button>
         <div class="detail">
@@ -105,6 +95,7 @@ function generateHTML(data){
         <div><strong>Intérêt :</strong> ${fiche.interet}</div>
         <div><strong>Difficulté :</strong> ${fiche.difficulte}</div>
         <div><strong>Rencontré lors de… :</strong> ${fiche.rencontre}</div>
+        <div style="margin-top:8px;">${liensHTML}</div>
         `;
         cont.appendChild(el);
     });
